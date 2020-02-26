@@ -24,6 +24,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
   totalItems: number;
   searchForm: FormGroup;
   limit = 8;
+  currentPage = 1;
   isLoading = false;
   private unSubscribe = new Subject<void>();
   constructor(
@@ -39,11 +40,15 @@ export class DashboardComponent implements OnInit, OnDestroy {
   }
 
   pageChanged(evt: PageChangedEvent) {
-    const page = evt.page;
-    this.searchArticles(page);
+    if (this.currentPage !== evt.page) {
+      this.searchArticles(evt.page);
+    }
   }
 
-  searchArticles(page?: number) {
+  searchArticles(page?) {
+    if (!page) {
+      this.currentPage = 1;
+    }
     const query = {
       searchText: this.searchText,
       country: this.searchCountry,
@@ -54,19 +59,16 @@ export class DashboardComponent implements OnInit, OnDestroy {
     this.newsService.getNews(query).pipe(
       takeUntil(this.unSubscribe)
     ).subscribe((res: any) => {
-
       this.totalItems = res.totalResults;
       this.articles = res.articles;
       this.isLoading = false;
-      console.log('res subs', res);
-
     });
   }
 
 
   initForm() {
     this.searchForm = this.fb.group({
-      title: '',
+      title: null,
       country: 'ua',
       category: null
     });
@@ -85,14 +87,12 @@ export class DashboardComponent implements OnInit, OnDestroy {
       });
 
     this.searchForm.get('country').valueChanges.subscribe((value) => {
-      console.log(value);
       this.searchCountry = value;
       this.searchArticles();
 
     });
 
     this.searchForm.get('category').valueChanges.subscribe((value) => {
-      console.log(value);
       this.searchCategory = value;
       this.searchArticles();
 

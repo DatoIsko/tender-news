@@ -62,9 +62,6 @@
                 <span> / </span>{{ article.author || "Ananimous" }}
               </p>
               <p class="card-text">{{ article.description }}</p>
-              <a [routerLink]="['/news', article.title]" class="btn btn-warning"
-                >Read More</a
-              >
             </div>
           </div>
         </div>
@@ -79,6 +76,7 @@
           class="mx-auto"
           [rotate]="false"
           [maxSize]="5"
+          [(ngModel)]="currentPage"
           (pageChanged)="pageChanged($event)"
           [itemsPerPage]="8"
           [totalItems]="totalItems"

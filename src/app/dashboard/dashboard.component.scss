@@ -1,0 +1,56 @@
+.card {
+  &-header {
+    background-position: center center;
+    background-size: cover;
+    padding: 0 !important;
+    height: 160px;
+  }
+
+  &-title {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 1;
+    -webkit-box-orient: vertical;
+  }
+
+  &-body {
+    padding: 0.75rem;
+
+    a {
+      display: block;
+      border-radius: 0;
+      border-bottom-left-radius: 3px;
+      border-bottom-right-radius: 3px;
+    }
+  }
+
+  &-author {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 1;
+    -webkit-box-orient: vertical;
+  }
+
+  &-text {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    height: 72px;
+  }
+
+  &-footer {
+    text-align: center;
+  }
+
+}
+
+ng-select {
+  ::ng-deep .ng-select-container {
+    background-color: #fff;
+  }
+
+}

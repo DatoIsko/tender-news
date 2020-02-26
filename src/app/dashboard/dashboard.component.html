@@ -1,0 +1,95 @@
+<div class="container-fluid">
+  <div class="row bg-dark mb-3">
+    <div class="col-12 py-3">
+      <form [formGroup]="searchForm" class="row">
+        <div class="col-md-4 col-sm-6 col-xs-12">
+          <ng-select
+            [items]="countries"
+            formControlName="country"
+            placeholder="Country"
+            [searchable]="true"
+            [clearable]="false"
+            bindLabel="key"
+            bindValue="value"
+            dropdownPosition="bottom"
+          ></ng-select>
+        </div>
+        <div class="col-md-4 col-sm-6 col-xs-12">
+          <ng-select
+            [items]="categories"
+            formControlName="category"
+            placeholder="Category"
+            [searchable]="true"
+            [clearable]="true"
+            bindLabel="key"
+            bindValue="value"
+            dropdownPosition="bottom"
+          ></ng-select>
+        </div>
+        <div class="col-md-4 col-xs-12">
+          <input
+            class="form-control w-100"
+            type="text"
+            formControlName="title"
+            placeholder="Search"
+            aria-label="Search"
+          />
+        </div>
+      </form>
+    </div>
+  </div>
+  <div *ngIf="!isLoading" class="row">
+    <div *ngIf="articles.length" class="col-12">
+      <div class="row">
+        <div
+          *ngFor="let article of articles"
+          class="col-md-3 col-sm-4 col-xs-12 mb-3"
+        >
+          <div class="card">
+            <div
+              class="card-header"
+              [ngStyle]="{
+                'background-image': 'url(' + article.urlToImage + ')'
+              }"
+            ></div>
+            <div class="card-body">
+              <h5 class="card-title">{{ article.title }}</h5>
+
+              <p class="card-author badge badge-light">
+                <span class="badge badge-warning">{{
+                  article.publishedAt | date
+                }}</span>
+                <span> / </span>{{ article.author || "Ananimous" }}
+              </p>
+              <p class="card-text">{{ article.description }}</p>
+              <a [routerLink]="['/news', article.title]" class="btn btn-warning"
+                >Read More</a
+              >
+            </div>
+          </div>
+        </div>
+      </div>
+      <div *ngIf="totalItems > limit" class="row">
+        <pagination
+          previousText="&lsaquo;"
+          nextText="&rsaquo;"
+          firstText="&laquo;"
+          lastText="&raquo;"
+          [boundaryLinks]="true"
+          class="mx-auto"
+          [rotate]="false"
+          [maxSize]="5"
+          (pageChanged)="pageChanged($event)"
+          [itemsPerPage]="8"
+          [totalItems]="totalItems"
+        ></pagination>
+      </div>
+    </div>
+    <div *ngIf="!articles.length" class="col-12">
+      <h5>Not Found any article</h5>
+    </div>
+  </div>
+  <div *ngIf="isLoading" class="row">
+    <img src="./assets/gifs/loading2.gif" alt="" />
+  </div>
+</div>
